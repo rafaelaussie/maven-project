@@ -26,9 +26,9 @@ pipeline {
         stage('Deployments'){
             parallel{
                 stage('Deploy to Staging'){
-                    steps{
-                        bat 'winscp /command "open scp:ec2-user@ec2-user@18.136.196.251:/var/lib/tomcat7/webapps -privatekey=C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.ppk" "put **/*.war" "exit"'
 
+                    steps{
+                        bat 'winscp /command "open scp:ec2-user@ec2-user@18.136.196.251:/var/lib/tomcat7/webapps -privatekey=C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.ppk -hostkey=ssh-ed25519 256 ikuan5siBY4ZB2EDK3zMABwmTOqHA8dDozMnsfPj0O8" "put **/*.war" "exit"'
                     }
                 }
 

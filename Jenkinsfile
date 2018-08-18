@@ -27,14 +27,14 @@ pipeline {
             parallel{
                 stage('Deploy to Staging'){
                     steps{
-                        bat 'winscp /command "open scp:ec2-user@ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps -privatekey=C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.ppk" "put **/*.war" "exit"'
+                        bat 'winscp /command "open scp:ec2-user@ec2-user@18.136.196.251:/var/lib/tomcat7/webapps -privatekey=C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.ppk" "put **/*.war" "exit"'
 
                     }
                 }
 
                 stage('Deploy to Prod'){
                     steps{
-                        bat 'winscp /command "open scp:ec2-user@ec2-user@${params.tomcat_prod}:/var/lib/tomcat7/webapps -privatekey=C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.ppk" "put **/*.war" "exit"'
+                        bat 'winscp /command "open scp:ec2-user@ec2-user@54.179.167.252:/var/lib/tomcat7/webapps -privatekey=C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.ppk" "put **/*.war" "exit"'
                     }
                 }
             }

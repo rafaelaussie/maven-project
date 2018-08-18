@@ -1,38 +1,47 @@
-pipeline{
+pipeline {
     agent any
+
+    parameters{
+        string(name: 'tomcat_dev', defaultValue='18.136.196.251',description='Staging Server'),
+        string(name: 'tomcat_prod', defaultValue='54.179.167.252',description='Production Server')
+    }
+
+    triggers{
+        pollSCM('* * * * *')
+    }
+
     stages{
         stage('Build'){
             steps{
-                bat 'mvn clean package'
+                sh 'mvn clean package'
             }
             post{
                 success{
-                    echo 'Now archiving..'
+                    echo 'Now archiving...'
                     archiveArtifacts artifacts: '**/*.war'
                 }
             }
         }
-        stage('Deploy to Staging'){
-            steps{
-                build job: 'mavproj_DeployStaging'
-            }
-        }
-        stage('Deploy to Production'){
-            steps{
-                timeout(time:5, unit:'DAYS'){
-                    input message: "Approve PRODUCTION Deployment"
+
+        stage('Deployments'){
+            parallel{
+                stage('Deploy to Staging'){
+                    steps{
+                        sh "scp -i C:\Users\aussie.haryono\PycharmProjects\TomcatDemo.pem **/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
+                    }
                 }
 
-                build job: 'mavproj_DeployProd2'
-            }
-            post{
-                success{
-                    echo 'Code deployed to Production'
-                }
-                failure{
-                    echo 'Deployment failed'
+                stage('Deploy to Prod'){
+                    steps{
+                        sh "scp -i C:\Users\aussie.haryono\PycharmProjects\TomcatDemo.pem **/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
+                    }
                 }
             }
         }
+
     }
+
+
+
+
 }

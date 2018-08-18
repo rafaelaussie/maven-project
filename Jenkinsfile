@@ -27,13 +27,13 @@ pipeline {
             parallel{
                 stage('Deploy to Staging'){
                     steps{
-                        bat "scp -i C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.pem **/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
+                        bat "winscp -i C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.pem **/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
                     }
                 }
 
                 stage('Deploy to Prod'){
                     steps{
-                        bat "scp -i C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.pem **/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
+                        bat "winscp -i C:/Users/aussie.haryono/PycharmProjects/TomcatDemo.pem **/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat7/webapps"
                     }
                 }
             }
